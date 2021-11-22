@@ -7,6 +7,7 @@ import org.lwjgl.system.*;
 import util.Time;
 
 import java.nio.*;
+import java.util.Objects;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -105,12 +106,12 @@ public class Window {
 
         // Terminate GLFW and free the error callback
         glfwTerminate();
-        glfwSetErrorCallback(null).free();
+        Objects.requireNonNull(glfwSetErrorCallback(null)).free();
     }
 
     private void loop() {
     	float beginTime = Time.getTime();
-        float endTime =Time.getTime();
+        float endTime;
         float dt = 0.0f;
         //gameloop
     	 while (!glfwWindowShouldClose(glfwWindow)) {
@@ -141,10 +142,12 @@ public class Window {
             case 0:
                 currentScene = new LevelEditorScene();
                 currentScene.init();
+                currentScene.start();
                 break;
             case 1:
                 currentScene = new LevelScene();
                 currentScene.init();
+                currentScene.start();
                 break;
             default:
                 assert false : "Unknown scene '"+newScene+"'";
