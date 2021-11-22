@@ -2,6 +2,8 @@ package perthroEngine;
 
 public abstract class Scene {
 
+    protected Camera m_camera;
+
     public Scene(){
 
     }

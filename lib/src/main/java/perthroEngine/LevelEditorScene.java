@@ -1,5 +1,6 @@
 package perthroEngine;
 
+import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import renderer.Shader;
 
@@ -15,10 +16,10 @@ public class LevelEditorScene extends Scene{
 
     private float[] vertexArray ={
             //position               //color
-            0.5f, -0.5f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f, //bottom right 0
-            -0.5f, 0.5f, 0.0f,       0.0f, 1.0f, 0.0f, 1.0f, //top left     1
-            0.5f, 0.5f, 0.0f,        0.0f, 0.0f, 1.0f, 1.0f, //top right    2
-            -0.5f, -0.5f, 0.0f,      1.0f, 1.0f, 0.0f, 1.0f, //bottom left  3
+            50.5f, -50.5f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f, //bottom right 0
+            -50.5f, 50.5f, 0.0f,       0.0f, 1.0f, 0.0f, 1.0f, //top left     1
+            50.5f, 50.5f, 0.0f,        0.0f, 0.0f, 1.0f, 1.0f, //top right    2
+            -50.5f, -50.5f, 0.0f,      1.0f, 1.0f, 0.0f, 1.0f, //bottom left  3
     };
 
     //Important : Must be in counter-clockwise order
@@ -42,7 +43,7 @@ public class LevelEditorScene extends Scene{
 
     @Override
     public void init() {
-
+        this.m_camera = new Camera(new Vector2f());
         m_defaultShader = new Shader("assets/shaders/default.glsl");
         m_defaultShader.compile();
 
@@ -84,6 +85,10 @@ public class LevelEditorScene extends Scene{
     public void update(float dt) {
         // Bind shader program
         m_defaultShader.use();
+        m_defaultShader.uploadMat4f("uProjection", m_camera.getProjectionMatrix());
+        m_defaultShader.uploadMat4f("uView", m_camera.getViewMatrix());
+
+
         // Bind the VAO that we're using
         glBindVertexArray(vaoID);
 
