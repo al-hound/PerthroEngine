@@ -10,8 +10,8 @@ public abstract class Scene {
     protected LinkedList<GameObject> m_gameObjects;
     protected LinkedList<GameObject> m_erasableGameObjects;
     protected LinkedList<GameObject> m_addableGameObjects;
-    private boolean addQueue = false;
-    private boolean removeQueue = false;
+    protected boolean addQueue = false;
+    protected boolean removeQueue = false;
 
     public Scene(){
         m_gameObjects = new LinkedList<>();
@@ -33,7 +33,15 @@ public abstract class Scene {
         m_gameObjects.add(go);
         if (!m_isRunning){
             go.start();
+        }else {
+            addQueue = true;
         }
+
+    }
+
+    public void removeEntity(GameObject entity){
+        m_erasableGameObjects.add(entity);
+        removeQueue = true;
     }
 
     public abstract void update(float dt);

@@ -127,6 +127,17 @@ public class LevelEditorScene extends Scene{
         for (GameObject go: m_gameObjects) {
             go.update(dt);
         }
+
+        if (addQueue) {
+            m_gameObjects.addAll(m_addableGameObjects);
+            m_gameObjects.clear();
+            addQueue = false;
+        }
+        if (removeQueue) {
+            m_gameObjects.removeAll(m_erasableGameObjects);
+            m_erasableGameObjects.clear();
+            removeQueue = false;
+        }
     }
 
 
